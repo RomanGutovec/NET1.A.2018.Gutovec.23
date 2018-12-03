@@ -54,6 +54,7 @@ namespace MatrixLib.Tests
                     actualMatrix.SetValueByIndices(-1, 2, 555);
                 });
 
+
         [Test]
         public void SumMatrixesTest_InputTwoMatrixes_AssertExpectedAndActualResult()
         {
@@ -69,6 +70,16 @@ namespace MatrixLib.Tests
             SquareMatrix<int> actualMatrix;
             actualMatrix = (SquareMatrix<int>)firstMatrix.GetSumMatrix<int>(secondMatrix, (x, y) => x + y);
             CollectionAssert.AreEqual(expectedMatrix, actualMatrix);
+        }
+
+        [Test]
+        public void ConstructorSymmetricTest_InputSymmEtricArrayfrom()
+        {
+            int[,] firstArray = { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } };
+            var actualMatrix = new SymmetricMatrix<int>(3, firstArray);
+
+            int[,] expectedArray = { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } };
+            CollectionAssert.AreEqual(expectedArray, actualMatrix);
         }
     }
 }

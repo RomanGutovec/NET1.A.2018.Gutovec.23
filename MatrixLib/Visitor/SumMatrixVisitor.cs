@@ -15,7 +15,6 @@ namespace MatrixLib.Visitor
         public SumMatrixVisitor(Func<T, T, T> condtion)
         {
             this.condtion = condtion ?? throw new ArgumentNullException($"Condition {nameof(condtion)} has null value");
-
         }
 
         protected override void Visit(SquareMatrix<T> firstSquareMatrix, SquareMatrix<T> secondSquareMatrix)
@@ -40,14 +39,22 @@ namespace MatrixLib.Visitor
 
         private void Sum(Martix<T> firstMatrix, Martix<T> secondMatrix)
         {
-            resultMatrix = new SquareMatrix<T>(firstMatrix.ColumnsNumber);
-            for (int i = 0; i < firstMatrix.RowsNumber; i++)
+            if (CheckMatrixes(firstMatrix, secondMatrix))
             {
-                for (int j = 0; j < firstMatrix.ColumnsNumber; j++)
+                throw new ArgumentException($"Matrixes {nameof(firstMatrix)}, {nameof(secondMatrix)} are not conformed");
+            }
+
+            resultMatrix = new SquareMatrix<T>(firstMatrix.Size);
+            for (int i = 0; i < firstMatrix.Size; i++)
+            {
+                for (int j = 0; j < firstMatrix.Size; j++)
                 {
                     this.resultMatrix[i, j] = this.condtion(firstMatrix[i, j], secondMatrix[i, j]);
                 }
             }
         }
+
+        private bool CheckMatrixes(Martix<T> firstMatrix, Martix<T> secondMatrix)
+        => firstMatrix.Size == secondMatrix.Size;
     }
 }
