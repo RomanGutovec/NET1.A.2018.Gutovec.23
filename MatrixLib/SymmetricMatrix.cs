@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace MatrixLib
 {
+    /// <summary>
+    /// Represents a strongly typed symmetric matrix of objects that can be accessed by index. Provides
+    /// methods to set by indices.
+    /// </summary>
+    /// <typeparam name="T">The type of objects include in the matrix.</typeparam>
     public class SymmetricMatrix<T> : Martix<T>
     {
         #region Fields
@@ -13,6 +18,12 @@ namespace MatrixLib
         #endregion
 
         #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the SymmetricMatrix class that
+        /// with specified size. 
+        /// </summary>
+        /// /// <exception cref="ArgumentNullException">Thrown when size less or equal to 0 </exception>
+        /// <param name="size">Amount of rows and columns</param>
         public SymmetricMatrix(int size) : base(size)
         {
             this.elements = new T[size][];
@@ -22,6 +33,13 @@ namespace MatrixLib
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the SymmetricMatrix class that
+        /// with specified size and two-dimensional array. 
+        /// </summary>
+        /// /// <exception cref="ArgumentNullException">Thrown when size less or equal to 0 </exception>
+        /// <param name="size">Amount of rows and columns</param>
+        /// <param name="elements">Elements to initialize the SymmetricMatrix</param>
         public SymmetricMatrix(int size, T[,] elements) : this(size)
         {
             if (elements == null)
@@ -56,17 +74,38 @@ namespace MatrixLib
         #endregion
 
         #region Indexators
+        /// <summary>
+        /// Returns element of the matrix by chosen indices
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown when one of any row or columns has incorrect value</exception>
+        /// <param name="rowIndex">Index of row to get element</param>
+        /// <param name="columnIndex">Index of row to set element</param>
+        /// <returns>Element of the matrix by chosen indices</returns>
         public override T this[int rowIndex, int columnIndex]
         {
             get
             {
                 this.CheckIndeces(rowIndex, columnIndex);
+                if (columnIndex > rowIndex)
+                {
+                    return this.elements[columnIndex][rowIndex];
+                }
+
                 return this.elements[rowIndex][columnIndex];
             }
 
             set
             {
-                T oldValue = this.elements[rowIndex][columnIndex];
+                T oldValue;
+                if (columnIndex > rowIndex)
+                {
+                    oldValue = this.elements[columnIndex][rowIndex];
+                }
+                else
+                {
+                    oldValue = this.elements[rowIndex][columnIndex];
+                }
+
                 this.SetValueByIndices(rowIndex, columnIndex, value);
                 this.OnMatrixChanged(new MatrixChangedEventArgs<T>(oldValue, value));
             }
@@ -74,23 +113,30 @@ namespace MatrixLib
         #endregion
 
         #region Overrided Methods
-        public override void Clear()
-        {
-            for (int i = 0; i < this.Size; i++)
-            {
-                for (int j = 0; j < this.Size; j++)
-                {
-                    this.elements[i][j] = default(T);
-                }
-            }
-        }
-
+        /// <summary>
+        /// Set value of element by the chosen row and column indices
+        /// </summary>
+        /// <param name="rowIndex">Index of the row in matrix</param>
+        /// <param name="columnIndex">Index of the columns in matrix</param>
+        /// <param name="value">Value to set</param>
         public override void SetValueByIndices(int rowIndex, int columnIndex, T value)
         {
             this.CheckIndeces(rowIndex, columnIndex);
-            this.elements[rowIndex][columnIndex] = value;
+
+            if (columnIndex > rowIndex)
+            {
+                this.elements[columnIndex][rowIndex] = value;
+            }
+            else
+            {
+                this.elements[rowIndex][columnIndex] = value;
+            }
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the matrix.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the matrix.</returns>
         public override IEnumerator<T> GetEnumerator()
         {
             for (int i = 0; i < this.Size; i++)

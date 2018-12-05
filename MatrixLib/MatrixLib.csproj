@@ -51,9 +51,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SymmetricMatrix.cs" />
-    <Compile Include="Visitor\MatrixExtension.cs" />
-    <Compile Include="Visitor\SumMatrixVisitor.cs" />
-    <Compile Include="Visitor\MatrixVisitor.cs" />
+    <Compile Include="MatrixExtension.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

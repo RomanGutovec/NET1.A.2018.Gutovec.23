@@ -54,7 +54,6 @@ namespace MatrixLib.Tests
                     actualMatrix.SetValueByIndices(-1, 2, 555);
                 });
 
-
         [Test]
         public void SumMatrixesTest_InputTwoMatrixes_AssertExpectedAndActualResult()
         {
@@ -68,7 +67,41 @@ namespace MatrixLib.Tests
             var expectedMatrix = new SquareMatrix<int>(3, expectedArray);
 
             SquareMatrix<int> actualMatrix;
-            actualMatrix = (SquareMatrix<int>)firstMatrix.GetSumMatrix<int>(secondMatrix, (x, y) => x + y);
+            actualMatrix = (SquareMatrix<int>)firstMatrix.Add<int>(secondMatrix);
+            CollectionAssert.AreEqual(expectedMatrix, actualMatrix);
+        }
+
+        [Test]
+        public void SumMatrixesTest_InputSymmetricMatrixAndDiagonal_AssertExpectedAndActualResult()
+        {
+            int[,] firstArray = { { 1, 3, 0 }, { 3, 2, 6 }, { 0, 6, 5 } };
+            Martix<int> firstMatrix = new SymmetricMatrix<int>(3, firstArray);
+
+            int[] secondArray = { 1, 2, 5 };
+            Martix<int> secondMatrix = new DiagonalMatrix<int>(3, secondArray);
+
+            int[,] expectedArray = { { 2, 3, 0 }, { 3, 4, 6 }, { 0, 6, 10 } };
+            var expectedMatrix = new SymmetricMatrix<int>(3, expectedArray);
+
+            Martix<int> actualMatrix;
+            actualMatrix = firstMatrix.Add<int>(secondMatrix);
+            CollectionAssert.AreEqual(expectedMatrix, actualMatrix);
+        }
+
+        [Test]
+        public void SumMatrixesTest_InputDiagonalMatrixAndDiagonal_AssertExpectedAndActualResult()
+        {
+            int[] firstArray = { 1, 2, 5 };
+            Martix<int> firstMatrix = new DiagonalMatrix<int>(3, firstArray);
+
+            int[] secondArray = { 1, 2, 5 };
+            Martix<int> secondMatrix = new DiagonalMatrix<int>(3, secondArray);
+
+            int[] expectedArray = { 2, 4, 10 };
+            var expectedMatrix = new DiagonalMatrix<int>(3, expectedArray);
+
+            DiagonalMatrix<int> actualMatrix;
+            actualMatrix = (DiagonalMatrix<int>)firstMatrix.Add<int>(secondMatrix);
             CollectionAssert.AreEqual(expectedMatrix, actualMatrix);
         }
 
