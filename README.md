@@ -1,6 +1,5 @@
 Day23
 ---
-!!! Нет комментариев !!!
 1. Создать обобщенные классы для представления [квадратной](https://github.com/RomanGutovec/NET1.A.2018.Gutovec.23/blob/master/MatrixLib/SquareMatrix.cs), 
 [симметрической](https://github.com/RomanGutovec/NET1.A.2018.Gutovec.23/blob/master/MatrixLib/SymmetricMatrix.cs) 
 и [диагональной](https://github.com/RomanGutovec/NET1.A.2018.Gutovec.23/blob/master/MatrixLib/DiagonalMatrix.cs) 
